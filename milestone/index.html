@@ -34,13 +34,13 @@
 </h1>
 
 <h2 align="middle">
-  Aiden Garde, Andrew Nguyen, Andres Avella, & Brandon Louie
+  Aidan Garde, Andrew Nguyen, Andres Avella, & Brandon Louie
 </h2>
 
 <h3 align="middle">
   Website hosted at: 
-  <a href="TODO">
-    TODO
+  <a href="https://brandonlouie.github.io/cs184-sp24-ferrofluids/milestone/index.html">
+    https://brandonlouie.github.io/cs184-sp24-ferrofluids/milestone/index.html
   </a> 
 </h3>
 
@@ -52,7 +52,10 @@
 </h2>
 
 <p>
-  TODO
+  For our final project, we are simulating ferrofluids. Ferrofluids are fluids that contain magnetic particles and that interact with surrounding magnetic fields
+  created by magnets. More specifically, ferrofluids form characteristic spikes according to the direction of the magnetic field surrounding it when exposed to a magnet.
+  The two biggest parts of our project involve implementing a working fluid simulation and updating this working fluid simulation to have magnetic properties. In other words,
+  we first must create fluids, then turn these fluids into ferrofluids.
 </p>
 
 <br>
@@ -62,8 +65,14 @@
 </h2> 
 
 <p>
-  TODO
+  Currently, our team is working on developing a working fluid simulation. We used the homework 4 skeleton code as the foundation for our simulation and have adapted it for our purposes,
+  converting cloth.cpp into fluid.cpp and updating files that relied on cloth.cpp to now interact with fluid.cpp. fluid.cpp houses the main logic for our fluid particles as well as their
+  representation. After defining our fluid particles, we slowly made progress toward developing a visually satisfying fluid simulation with behavior consistent with fluids in real life.
+  In the slides linked at the bottom of this webpage, you will find videos of that previous implementation failures that we iterated upon until achieving the current state of our fluid simulation.
+  Now, we have a fluid simulation that looks pretty visually appealing, but still have a ways to go in terms of optimizing this simulation to work at a greater scale.
 </p>
+
+<!-- TODO include a video of failure iterations, and a video of success-->
   
 <br>
   
@@ -72,7 +81,10 @@
 </h2>
 
 <p>
-  TODO
+  Our way of testing our implementation of fluid simulation involves creating a liquid (representated as a collection of bound particles in space) in a box and seeing how the fluid comes to rest
+  upon being dropped within that box. We are using a Divergence-Free Smoothed Particle Hydrodynamics (DFSPH) algorithm to dictate the behavior of these particles with respects to each other
+  and the space they exist. With this algorithm, our fluid simulation runs much more smoothly than in previous iterations. Additionally, the particles used to represent the fluid seem more like
+  actual fluids and less like bound point-masses (like our cloth in homework 4, without accounting for self-collisions). 
 </p>
 
 <br>
@@ -82,7 +94,12 @@
 </h2>
 
 <p>
-  TODO (relative to plan)
+  The fluid simulation part of this project is proving to be a lot more difficult than we initially expected. A great deal of fluid simulation requires us to understand the real-world physics behind
+  fluids, as well as optimizing existing algorithms to produce smooth-looking results in our simulation. As a result, we are slightly behind the schedule we had originally developed in our project proposal,
+  where we had noted that we wanted to have completed our fluid simulation by the time of submitting this milestone checkpoint. With how progress is looking currently, we believe that turning our fluid into a
+  ferrofluid is less of a concern than creating fluids in the first place. However, since the goal of our project is ultimately to enable interactions between fluids and magnets, we have not given up all hope in
+  ferrofluids; instead, we have come to the realization that we may have to cut some of the stretch goals we laid out for ferrofluid interactions with varying solids and instead focus on basic 
+  ferrofluid interaction with magnets.
 </p>
 
 <br>
@@ -93,7 +110,10 @@
 </h2>
 
 <p>
-  TODO
+  Given our current progress, we believe that we can be done with ferrofluids by the end of the third week of this project's development (as of the time of writing, we are nearing the end of week two
+  of project development). This gives us significantly less time to work on "ferro-izing" our fluid, so we anticipate that in week four of development that we can, at the very least, introduce logic to
+  our particles to react to magnetic fields. We want to at least be able to enable our fluid to create the spike that characterize ferrofluids, if we do not have sufficient time to implement interactions with
+  other magnetic solids.
 </p>
 
 <br>
@@ -101,6 +121,9 @@
 <h2 align="middle">
   Milestone Video
 </h2>
+
+
+<!-- TODO milestone video-->
 
 <p>
   TODO (description, embed video)
@@ -113,7 +136,10 @@
 </h2>
 
 <p>
-  TODO (description, embed slides)
+    Our Milestone Presentation Slides can be found  
+    <a href="https://docs.google.com/presentation/d/1j1cr91nUmGl4lyUFhtdZ-TyOfVNUP0IWR05709J4msU/edit?usp=sharing">
+      here.
+    </a> 
 </p>
 
 <br>
