@@ -1,0 +1,3 @@
+# CS184/284A Spring 2024 Final Project -- Ferrofluids
+
+This repository exists to host deliverables pertaining to our CS184 Sp24 final project on ferrofluids.
