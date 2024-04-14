@@ -58,6 +58,13 @@
   we first must create fluids, then turn these fluids into ferrofluids.
 </p>
 
+<center><img src="images/ferrofluid.png" align="middle" width="400px"/></center>
+<figcaption align="middle">
+  <font size="-1">
+    After implementing magnetic fields, our fluid should simulate these spikes after being exposed to a magnet. For now, we have focused primarily on fluid simulation without magnets.
+  </font>
+</figcaption>
+
 <br>
 
 <h2 align="middle">
@@ -72,7 +79,60 @@
   Now, we have a fluid simulation that looks pretty visually appealing, but still have a ways to go in terms of optimizing this simulation to work at a greater scale.
 </p>
 
-<!-- TODO include a video of failure iterations, and a video of success-->
+<div align="middle">
+  <table style="width:100%">
+    <tr>
+      <td>
+        <iframe width="420" height="315"
+            src="https://www.youtube.com/embed/3t1m92u-xj8">
+        </iframe>
+          <figcaption align="middle">
+            <font size="-1">
+              Failure 1 (unoptimized)
+            </font>
+          </figcaption>
+      </td>
+      <td>
+        <iframe width="420" height="315"
+            src="https://www.youtube.com/embed/Ob7EGVpQppU">
+        </iframe>
+          <figcaption align="middle">
+            <font size="-1">
+              Failure 2 (great deviations from referenced paper)
+            </font>
+          </figcaption>
+      </td>
+    </tr>
+    <br>
+    <tr>
+      <td>
+        <iframe width="420" height="315"
+            src="https://www.youtube.com/embed/NxmB4ipRoZ4">
+        </iframe>
+          <figcaption align="middle">
+            <font size="-1">
+              Failure 3 (fluid condenses into one particle, which is undesired)
+            </font>
+          </figcaption>
+      </td>
+      <td>
+        <iframe width="420" height="315"
+            src="https://www.youtube.com/embed/zMQ9aTg2RUU">
+        </iframe>
+          <figcaption align="middle">
+            <font size="-1">
+              Failure 4 (fluid does not come to rest, and behavior extremely strange)
+            </font>
+          </figcaption>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<br>
+
+<!-- TODO: include video of working simulation-->
+
   
 <br>
   
