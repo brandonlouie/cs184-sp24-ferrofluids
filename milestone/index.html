@@ -131,7 +131,7 @@
 
 <br>
 
-<!-- TODO: include video of working simulation-->
+
 
   
 <br>
@@ -146,6 +146,16 @@
   and the space they exist. With this algorithm, our fluid simulation runs much more smoothly than in previous iterations. Additionally, the particles used to represent the fluid seem more like
   actual fluids and less like bound point-masses (like our cloth in homework 4, without accounting for self-collisions). 
 </p>
+
+<center>
+<iframe width="420" height="315" src="https://www.youtube.com/embed/ynQLw1jjWOE">
+</iframe>
+</center>
+  <figcaption align="middle">
+    <font size="-1">
+      Current state of simulation
+    </font>
+  </figcaption>
 
 <br>
 
@@ -181,6 +191,14 @@ Divide the space into cubes and determine whether points are within a sphere or 
   ferrofluid interaction with magnets.
 </p>
 
+<p>
+  One issue we have been running into is that our fluid simulation does not reach a stable state as we scale up by increasing the number of particles in our fluid. To mitigate this, we have tried
+  to tune parameters as we scale up, but these seems to be a temporary fix that may not prove to be ideal moving forward. At this point, we are currently unable to pinpoint the cause for this instability.
+  At the very least, we'd like to be able to "ferro-ize" our fluid at the smaller scale before scaling up. This may result in our fluid looking a little less smooth at first, but if we can figure out our scaling issue,
+  we anticipate that our fluid simulation would look much smoother. On the topic of scaling up, we also want to implement an acceleration structure to our program. Currently, our algorithm runs with cubic time complexity,
+  which we can already foresee being less-than ideal for the future. We intend to implement an acceleration structure similar to the hashmap used in Homework 4 to assist in deciding what particles interact with each other.
+</p>
+
 <br>
 
 
@@ -203,6 +221,10 @@ Divide the space into cubes and determine whether points are within a sphere or 
 
 
 <!-- TODO milestone video-->
+<center>
+  <iframe width="420" height="315" src="https://www.youtube.com/embed/(insert video code here)">
+  </iframe>
+  </center>
 
 <p>
   TODO (description, embed video)
