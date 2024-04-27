@@ -39,8 +39,8 @@
 
 <h3 align="middle">
   Website hosted at: 
-  <a href="TODO">
-    TODO
+  <a href="https://brandonlouie.github.io/cs184-sp24-ferrofluids/final/index.html">
+    https://brandonlouie.github.io/cs184-sp24-ferrofluids/final/index.html
   </a> 
 </h3>
 
@@ -52,8 +52,22 @@
 </h2>
 
 <p>
-  TODO
+  Ferrofluids are fluids containing magnetic particles that react to the magnetic field surrounding them, generally introduced by magnets or induced via changes in electrical currents. 
+  Ferrofluids were first invented by NASA in 1963 as a way to transport rocket fuel in weightless environments, and the current applications of these fluids in the real world involve 
+  biosensing, medical imaging, energy harvesting and transfer, and vibration control. In this project, we attempt to simulate the behavior of ferrofluids, which would allow us to study
+  its unique properties and apply it to many of the aforementioned real world applications. On this webpage, you will see our attempts at simulating basic ferrofluid-magnet interactions,
+  where the fluid forms characteristic spikes reacting to introduced magnetic fields. There were three major parts to this project: fluid simulation (creating a basic fluid, represented
+  as a collection of particles), cube marching (creating a mesh over these particles to make our simulation better resemble real-world fluids), and magnetization (introducing magnets into
+  our simulation and magnetizing/"ferro-izing" our fluid).
 </p>
+
+<center><img src="images/ferrofluid.png" align="middle" width="400px"/></center>
+<figcaption align="middle">
+  <font size="-1">
+    An example of a ferrofluid being exposed to a magnet. The magnet (not pictured) lies beneath the ferrofluid, creating a magnetic field. The magnetic particles in the ferrofluid contour
+    to the direction of the magnetic field, creating the characteristic spikes pictured here. When the magnet is removed, the ferrofluid appears similar to most other liquids at rest.
+  </font>
+</figcaption>
 
 <br>
 
@@ -62,7 +76,24 @@
 </h2> 
 
 <p>
-  TODO
+  Our project uses Homework 4: Cloth Sim from UC Berkeley's Computer Grpahics and Imaging course (CS184) as a basis for our fluid simulation. This homework assignment provides the framework 
+  for mathematically based physical simulations, and more specifically focused on the simulation of cloth and its interactions with planes, spheres, and itself. We chose to us this assignment
+  as our starting framework as our project is on a particle-based simulation, which is precisely what we implemented in this assignment; just as we can represent a cloth as a collection of
+  particles connected with springs, we can express our fluid as a collection of particles that interact with each other with binding forces similar to springs. The major  we made
+  to this existing repository is updating the object to be simulated; we effectively replaced every file or instance specific to cloth simulation with our own files and definitions that specify
+  the existence of a fluid object.
+</p>
+
+<p>
+  TODO (discuss Fluid sim)
+</p>
+
+<p>
+  TODO (discuss Cube Marching)
+</p>
+
+<p>
+  TODO (discuss Magnetic fields)
 </p>
   
 <br>
@@ -82,7 +113,37 @@
 </h2>
 
 <p>
-  TODO
+  <ul>
+    <li>L. Huang, T. Hadrich, and D.L. Michels.
+      <a href="http://computationalsciences.org/publications/huang-2019-ferrofluids.html">
+        On the Accurate Large-scale Simulation of Ferrofluids
+      </a> 
+    </li>
+
+    <li>S. Adami, X.Y. Hum, and N.A. Adams.
+      <a href="https://web.stanford.edu/group/ctr/Summer/SP12/02.11_adami.pdf">
+        Simulating three-dimensional turbulence with SPH
+      </a> 
+    </li>
+
+    <li>M. Muller, D. Charypar, and M. Gross.
+      <a href="https://matthias-research.github.io/pages/publications/sca03.pdf">
+        Particle-Based Fluid Simulation for Interactive Applications
+      </a> 
+    </li>
+
+    <li>H. Shao, L. Huang, and D.L. Michels.
+      <a href="http://computationalsciences.org/publications/shao-2022-ferrofluids/shao-2022-ferrofluids.pdf">
+        A Current Loop Model for the Fast Simulation of Ferrofluids
+      </a> 
+    </li>
+
+    <li>J. Bender and D. Koschier.
+      <a href="http://computationalsciences.org/publications/shao-2022-ferrofluids/shao-2022-ferrofluids.pdf">
+        Divergence-Free Smoothed Particle Hydrodynamics
+      </a> 
+    </li>
+  </ul>
 </p>
 
 <br>
@@ -93,7 +154,12 @@
 </h2>
 
 <p>
-  TODO
+  This project was a collaboration between Aidan Garde, Andres Avella, Andrew Nguyen, and Brandon Louie, a group of four students graduating from UC Berkeley in Spring of 2024. Aidan
+  implemented the cube marching algorithm that enabled our fluid simulation to look more visually appealing and similar to real-world fluids, and assisted with parts of the fluid 
+  simulation. Andres and Andrew led the implementation of the fluid simulation and magnetization of the fluid, reading many of the research papers on ferrofluids and fluid simulation and
+  building our ferrofluid using these papers as a guideline. Brandon assisted in various aspects of the project, assisting the other group members with tasks related to fluid simulation
+  and magnetization, and developed many of the materials for the milestone and final deliverables for this project. Each member equally contributed to our final project, each working on the 
+  implementation tasks assigned to them and writing about the results of the work they completed.
 </p>
 
 <br>
@@ -103,7 +169,21 @@
 </h2>
 
 <p>
-  TODO (description, embed video)
+  TODO (video)
+</p>
+
+<br>
+
+<h2 align="middle">
+  Final Presentation Slides
+</h2>
+
+<p>
+    Our Final Presentation Slides can be found  
+    <a href="https://docs.google.com/presentation/d/1j1cr91nUmGl4lyUFhtdZ-TyOfVNUP0IWR05709J4msU/edit?usp=sharing">
+      here.
+    </a> 
+    TODO (update link)
 </p>
 
 <br>
