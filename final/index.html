@@ -57,8 +57,8 @@
   biosensing, medical imaging, energy harvesting and transfer, and vibration control. In this project, we attempt to simulate the behavior of ferrofluids, which would allow us to study
   its unique properties and apply it to many of the aforementioned real world applications. On this webpage, you will see our attempts at simulating basic ferrofluid-magnet interactions,
   where the fluid forms characteristic spikes reacting to introduced magnetic fields. There were three major parts to this project: fluid simulation (creating a basic fluid, represented
-  as a collection of particles), cube marching (creating a mesh over these particles to make our simulation better resemble real-world fluids), and magnetization (introducing magnets into
-  our simulation and magnetizing/"ferro-izing" our fluid).
+  as a collection of particles), magnetization (introducing magnets into our simulation and magnetizing/"ferro-izing" our fluid), and cube marching (creating a mesh over these particles to 
+  make our simulation better resemble real-world fluids).
 </p>
 
 <center><img src="images/ferrofluid.png" align="middle" width="400px"/></center>
@@ -81,21 +81,22 @@
   as our starting framework as our project is on a particle-based simulation, which is precisely what we implemented in this assignment; just as we can represent a cloth as a collection of
   particles connected with springs, we can express our fluid as a collection of particles that interact with each other with binding forces similar to springs. The major  we made
   to this existing repository is updating the object to be simulated; we effectively replaced every file or instance specific to cloth simulation with our own files and definitions that specify
-  the existence of a fluid object.
+  the existence of a fluid object. The structure for our particle-based representation of fluids is heavily inspired "A Current Loop Model for the Fast Simulation of Ferrofluids" 
+  by Shao, Huang, and Michels (linked below).
 </p>
 
 <p>
   TODO (discuss Fluid sim)
 </p>
 
-<p>
-  TODO (discuss Cube Marching)
-</p>
 
 <p>
   TODO (discuss Magnetic fields)
 </p>
 
+<p>
+  TODO (discuss Cube Marching)
+</p>
 <p>
   TODO (discuss problems encountered, how we tackled them)
 </p>
