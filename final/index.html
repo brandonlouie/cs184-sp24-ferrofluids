@@ -402,8 +402,30 @@
 </figcaption>
 
 <p>
-  TODO (discuss Cube Marching)
-  In order to transform the collection of fluid particles
+  In order to transform the collection of fluid particles into a 3D texture, we used the cube marching algorithm.
+  This was implemnted by seperating the world into cubes, and at each vertex determining whether that point was "underfluid".
+  This was determined by whether the given vertex intersected a fluid particle.
+  Then, once this boolean cube mesh was generated, each cube was categorized as a permutation of the cases shown above, and the resulting triangle were generated and placed in a mesh.
+  This final mesh was outputed frame by frame into a .obj file for each frame, containing vertex, normals, and faces.
+
+
+</p>
+
+<h3 align="left">
+  Rendering (via Blender)
+</h3>
+
+<center><img src="images/blender.png" align="middle" width="720px"/></center>
+<figcaption align="middle">
+  <font size="-1">
+    Layout of Blender scene
+  </font>
+</figcaption>
+
+<p>
+  Once the triangle meshes were generated, we used the blender add-on "stopmotionOBJ" to stitch together the meshes into an animation.
+  A black glossy BSDF was added to the material to emulate that of ferrofluid.
+  We noticed that cube marching looked kind of blocky, so we added some smoothing to the mesh in order to better match the appearance of a thick liquid. 
 </p>
 
 <br>
@@ -434,6 +456,16 @@
   The conjugate gradient method described earlier uses an iterative computation to evaluate the residual vector, but this was prone to floating point error build up which was causing our 
   simulation to blow up for certain particle counts. As such, we began to explicitly calculate the residual vector with a matrix-vector product at each iteration in the algorithm at the 
   cost of having a longer runtime.
+</p>
+
+<p>
+  When implementing cube marching, we ran into several smaller problems, but the most notable was performance. Out initial implementation used primitive arrays and used duplicate vertices for each triangle,
+  which caused longer mesh construction times. After refactoring different parts of the process, this operation was significantly hastened, allowing us to generate higher quality meshes and final renderings.
+</p>
+
+<p>
+  When using blender, there were not explicit problems that slowed us down for any significant amount of time, but there was a tough learning curve on using the software because none of us had any previous experience with it.
+  The most diffiult challenge to overcome was figuring out how to properly position and configure the camera to generate an adequate but timely rendering.
 </p>
 
 <br>
@@ -518,6 +550,12 @@
     <li>N. Akinci, G. Akinci, and M. Teschner.
       <a href="https://cg.informatik.uni-freiburg.de/publications/2013_SIGGRAPHASIA_surfaceTensionAdhesion.pdf">
         Versatile Surface Tension and Adhesion for SPH Fluids
+      </a> 
+    </li>
+
+    <li>P. Bourke
+      <a href="https://paulbourke.net/geometry/polygonise/">
+        Polygonising a Scalar Field
       </a> 
     </li>
   </ul>
