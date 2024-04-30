@@ -389,7 +389,27 @@
 </h3>
 
 <p>
-  TODO (discuss problems encountered, how we tackled them)
+  The first problem we encountered was creating a stable fluid simulation. We read through many different papers and tried to implement multiple versions of SPH, but we ended up 
+  implementing DFSPH. It took us more than half of the 4 weeks allotted to work on the project to get a reasonably working fluid simulation. Afterward, we spent a lot of time tuning 
+  parameters and testing different kernel functions to observe the effect. This took a lot of time but we eventually found values we were satisfied with. Additionally, our fluid simulation 
+  ran very slow, so we spent a lot of time coming up with a neighborhood search to increase the speed of the fluid simulation.
+</p>
+
+<p>
+  The biggest challenge we faced was testing our implementation. It was difficult to test individual parts of the simulation in isolation because it is hard to say what the behavior was 
+  supposed to look like if only one part of the simulation was active. Additionally, sometimes the simulation would only diverge if all parts were active, which made it difficult to tell 
+  which part we had incorrectly implemented. 
+</p>
+
+<p>
+  The magnetic force computation was also hard to get working. It was impractical to test the solution for a large number of particles due to the long runtime, but sometimes the simulation 
+  would only diverge for a larger number of particles. Also, it was difficult to know what the expected behavior was supposed to be for a smaller number of particles. 
+</p>
+
+<p>
+  The conjugate gradient method described earlier uses an iterative computation to evaluate the residual vector, but this was prone to floating point error build up which was causing our 
+  simulation to blow up for certain particle counts. As such, we began to explicitly calculate the residual vector with a matrix-vector product at each iteration in the algorithm at the 
+  cost of having a longer runtime.
 </p>
 
 <br>
@@ -399,7 +419,10 @@
 </h3>
 
 <p>
-  TODO (discuss lessons learned)
+  One key takeaway was the importance of tuning your parameters and choosing the correct kernel functions. There were many instances where the issues we were running into were not with 
+  what we implemented, but the kernel functions and parameters we were using. Additionally, fluid simulations and magnetization are extremely computationally heavy, making it difficult 
+  to get a truly accurate large-scale simulation without utilizing CUDA, among other optimizations. None of us had any experience with fluid simulations or magnetization, making the 
+  project difficult, but we gained a deeper understanding of the different fluid simulation methods and magnetization. 
 </p>
   
 <br>
