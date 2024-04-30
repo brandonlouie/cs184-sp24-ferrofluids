@@ -75,6 +75,10 @@
   Technical Approach
 </h2> 
 
+<h3 align="left">
+  Framework
+</h3>
+
 <p>
   Our project uses Homework 4: Cloth Sim from UC Berkeley's Computer Graphics and Imaging course (CS184) as a basis for our fluid simulation. This homework assignment provides the framework 
   for mathematically based physical simulations, and more specifically focused on the simulation of cloth and its interactions with planes, spheres, and itself. We chose to us this assignment
@@ -85,9 +89,102 @@
   by Shao, Huang, and Michels (linked below).
 </p>
 
+<br>
+
+<h3 align="left">
+  Fluid Simulation -- Divergence-Free Smooth Particle Hydrodynamics
+</h3>
+
 <p>
-  TODO (discuss Fluid sim)
+  For the fluid simulation, the model utilizes divergence-free smoothed particle hydrodynamics to simulate fluids and directly uses Bender et al's implementation for DFSPH. In an SPH fluid 
+  simulation, there are a discrete number of particles that interact with one another. Each particle represents a distribution of particles around it represented by the kernel/weighting 
+  function <i>W</i>. The kernel function is gaussian-like, radially symmetric, and compactly supported. Each discrete particle in the simulation maintains its position, velocity, density, 
+  and mass, among other quantities. The value of a particular quantity at a point in space <b>r</b> inside the fluid can be obtained by interpolating the value of that quantity using the 
+  kernel function as follows:
 </p>
+
+<center><img src="images/equation_1.png" align="middle" width="400px"/></center>
+
+<p>
+  where <i>m_j</i> is the pass of the jth particle, ⍴_j is the density of the jth particle, <i>A_j</i> is the desired quantity to be evaluated, <b><i>r</b>_j</i> is the 
+  position of the jth particle, and <i>W</i> is the kernel  function with support proportional to a constant h. The density of a particle ⍴_j is approximated using the following relation:
+</p>
+
+<center><img src="images/equation_2.png" align="middle" width="400px"/></center>
+
+<p>
+  When the derivative of a field quantity is desired, the derivatives only apply to the kernel function <i>W</i> like so:
+</p>
+
+<center><img src="images/equation_3.png" align="middle" width="400px"/></center>
+
+<p>
+  The above relations provide the means to evaluate a field quantity <i>A</i> at any arbitrary position <b>r</b>, but for the sake of the simulation, we only evaluate the relevant field quantities 
+  at each of the particle positions <b>r_i</b>. It is also important to note that the sums in the above equations are over <i>surrounding</i> particles. That is, if we are evaluating the density of 
+  the ith particle, ⍴_i,  the term m_iW(r_i - r_i, h) = m_iW(<b>0</b>, h) is not included in the sum. Because the kernel function <i>W</i> is compactly supported (i.e., it evaluates to zero for a sufficiently 
+  large radius R), isolated particles that are far enough from other particles will end up having their density evaluated to zero. This is an issue because we divide by the particle densities 
+  of each particle to calculate other field quantities. To combat this, we offset the particle densities by a small constant 10^-6.
+</p>
+
+<p>
+  At a high level, the simulation evaluates relevant quantities each of the particle locations, and then applies forces in order to satisfy the incompressible, 
+  isothermal Navier-Stokes equation, which is equivalent to the following: 
+</p>
+
+<center><img src="images/equation_4.png" align="middle" width="400px"/></center>
+
+<p>
+  At each timestep, we calculate the non-pressure forces (which come from viscosity, gravity, cohesion, curvature, and magnetism). We update the velocities and positions using basic Euler 
+  integration. Then, we apply the relevant pressure forces to enforce incompressibility. That equates to updating the velocities of each particle to ensure that the density of the fluid 
+  remains constant and that the fluid remains divergence free. The functions <b>correctDensityError()</b> and <b>correctDivergenceError()</b> each iteratively update the velocities of each 
+  particle until they are within a small margin of error of satisfying those constraints.
+</p>
+
+<center><img src="images/algo_1.png" align="middle" width="400px"/></center>
+
+<center><img src="images/algo_2.png" align="middle" width="400px"/></center>
+
+<center><img src="images/algo_3.png" align="middle" width="400px"/></center>
+
+<p>
+  The two forces included in the fluid simulation are viscosity and surface tension. For the variables, m is mass and r is position. For the viscosity calculation, we calculated 
+  it based on the following equation:
+</p>
+
+<center><img src="images/equation_5.png" align="middle" width="400px"/></center>
+
+<p>
+  The kernel function we chose for viscosity was the W_spiky kernel taken from Müller et al. as it ran the fastest and gave us the best results.
+</p>
+
+<center><img src="images/equation_6.png" align="middle" width="400px"/></center>
+
+<p>
+  For surface tension, it is based on this equation taken from Shao et al.:
+</p>
+
+<center><img src="images/equation_7.png" align="middle" width="400px"/></center>
+
+<p>
+  Where f_cohesion and f_curvature are calculated with:
+</p>
+
+<center><img src="images/equation_8.png" align="middle" width="400px"/></center>
+
+<center><img src="images/equation_9.png" align="middle" width="400px"/></center>
+
+<p>
+  𝜎 is the surface tension coefficient and C denotes a spline function. In curvature, n_i and n_j correspond to their normals. The spline function came from the original 
+  referenced paper by Akinci et al.
+</p>
+
+<center><img src="images/equation_10.png" align="middle" width="400px"/></center>
+
+<br>
+
+<h3 align="left">
+  Magnetism
+</h3>
 
 <center><img src="images/spiking-of-ferrofluids.png" align="middle" width="400px"/></center>
 <figcaption align="middle">
@@ -97,8 +194,173 @@
 </figcaption>
 
 <p>
-  TODO (discuss Magnetic fields)
+  Each particle in the fluid simulation can be thought of as a tiny magnet. In the absence of a magnet, the magnetic moments of each of the particles are randomly distributed, 
+  so the fluid as whole behaves like any other. When exposed to an external magnetic field the magnetic moments of the particles align in a dominant direction and the spikes form. 
+  The magnetic force computation can be broken down into two parts: evaluating the magnetic moment of each particle and then applying the magnetic force onto each particle. 
 </p>
+
+<p>
+  The smoothing kernel function we use for the magnetic force is different from what we use in DFSPH:
+</p>
+
+<center><img src="images/equation_11.png" align="middle" width="400px"/></center>
+
+<p>
+  In order to solve for the magnetic moments, we use the following relation:
+</p>
+
+<center><img src="images/equation_12.png" align="middle" width="400px"/></center>
+
+<p>
+  The term on the left side of the equation has a linear relationship with the ith magnetic moment as follows (𝜒 is a constant equal to the magnetic susceptibility of the fluid and 
+  <i>V</i> = (Δx)^3, where Δx is the initial spacing between the particles when they are initialized in the shape of a cube):
+</p>
+
+<center><img src="images/equation_13.png" align="middle" width="400px"/></center>
+
+<p>
+  The <b>H</b>(<b>r</b>_i - <b>r</b>_j, <b>m</b>_j) term inside the summation in equation (13) is also linear with respect to the jth magnetic moment, <b>m</b>_j:
+</p>
+
+<center><img src="images/equation_14.png" align="middle" width="400px"/></center>
+
+<p>
+  Where W_avr(r) is the average value of the kernel function over the sphere of radius r. 
+</p>
+
+<p>
+  This means that equation (13) can be written in the form of a matrix-vector product:
+</p>
+
+<center><img src="images/equation_15.png" align="middle" width="400px"/></center>
+
+<center><img src="images/equation_16.png" align="middle" width="400px"/></center>
+
+<p>
+  where <b>G</b> ∈ R^(3Nx3N), <b>b</b>, <b>m</b> ∈ R^3N, and <b>h_ext</b> ∈ R^3N, and N is the total number of particles in the simulation. <b>h_ext</b> can be thought of as a 
+  stacked vector of the 3D external magnetic field evaluated at each of the N particle positions. In our simulation, the magnetic field is uniform, so this vector can be thought of 
+  as N stacked copies of the constant magnetic field we define. We solve for the vector <b>b</b>, which has a linear relationship with the magnetic moments vector <b>m</b>, in the least squares sense. 
+  Because the matrix <b>G</b> is R^(3Nx3N), we don't bother calculating the closed form least squares solution because that would involve expensive matrix-matrix products and a matrix inversion computation. 
+  Instead, we use the conjugate gradient method in order to iteratively improve on the least squares solution for the magnetic moments vector <b>m</b>.
+</p>
+
+<p>
+  <b>Conjugate gradient method</b> algorithm for solving a linear system <b>Ax</b> = <b>b</b>:
+</p>
+
+<center><img src="images/cgm.png" align="middle" width="400px"/></center>
+
+<p>
+  Once we have calculated the magnetic moments for each of the N particles, we apply the corresponding magnetic forces. The force between two particles is computed differently 
+  depending on the distance between the two. For a source particle <i>s</i> and a target particle <i>t</i>, if the distance between them is less than 4h, we compute the force between them as 
+  described in the section labeled <b>near-force computation</b>. Otherwise, we compute it as described in the section labeled <b>far-force computation</b>.
+</p>
+
+<h3 align="left">
+  Near-force computation:
+</h3>
+
+<center><img src="images/near-force.png" align="middle" width="400px"/></center>
+
+<p>
+  The force from a source particle s to a target particle t if the distance between them is below 4h, where h is the kernel smoothing length. These integrals are evaluated numerically 
+  in a relative coordinate system to form lookup curves which are used to speed up the computation. The lookup curves are fitted with piecewise fourth-order polynomials. We apply a 
+  coordinate transformation so that the source particle gets mapped to the origin and the target particle gets mapped to (0, 0, qh), where <i>q</i> = r / h, and r is the distance between the 
+  two particles. We then rotate the magnetic moments according to this new coordinate system. We compute the force in rotated coordinates as follows: 
+</p>
+
+<center><img src="images/equation_17.png" align="middle" width="400px"/></center>
+
+<p>
+  where terms with a ~ have been rotated to match the coordinate system described above. 𝛼 is the index of the component of the rotated force vector and 𝛽 and 𝛾 are indices of the 
+  rotated source and target magnetic moments, respectively. 𝚲 is a relatively sparse third-order tensor with 27 entries. Each entry can be thought of as a fitted polynomial curve 
+  which approximates the integral in equation (29) for combination of two components of unit rotated magnetic moments of the two particles. The only non-zero entries of the tensor 
+  are listed below:
+</p>
+
+<center><img src="images/tensor.png" align="middle" width="400px"/></center>
+
+<p>
+  Where C_i(q), where q = r / h and r is distance between the source and target particles, are piecewise fourth order polynomials fitted to approximate the force integral in the 
+  rotated coordinate space written in equation (29).
+</p>
+
+<h3 align="left">
+  Far-force computation:
+</h3>
+
+<center><img src="images/far-force.png" align="middle" width="400px"/></center>
+
+<p>
+  with
+</p>
+
+<center><img src="images/far-force 2.png" align="middle" width="400px"/></center>
+
+<h3 align="left">
+  Important Notes on Magnetism:
+</h3>
+
+<p>
+  The external magnetic field can also apply a magnetic force on the particles which we evaluate as follows: 
+</p>
+
+<center><img src="images/magforce.png" align="middle" width="400px"/></center>
+
+<p>
+  However, because we implement a constant external magnetic field, its gradient is zero and thus it does not apply a force on the particles.
+</p>
+
+<p>
+  We are unable to simulate with large amounts of particles due to runtime constraints, so the far-force computation described above is actually never run in our implementation 
+  (although it is in fact implemented). That is, because there are so few particles, there is never a case where two particles are farther than 4h from each other.
+</p>
+
+<p>
+  Additionally, because we have very few particles applying magnetic forces on each other, we need to make magnetic susceptibility 𝜒 massive in order to for the magnetic moments to 
+  be large enough in magnitude for the magnetic forces between them to be visible in the simulation. Because the total magnetic force on a particular particle is a sum over all other 
+  particles in the simulation, we believe that having more particles would have given rise to the fluid developing the characteristic look with multiple spikes even with a smaller magnetic 
+  susceptibility. 
+</p>
+
+<h3 align="left">
+  Optimizations to Fluid Simulation and Magnetism:
+</h3>
+
+<p>
+  SPH simulations involve O(N^2) work since each of the N particles needs to iterate over all other (N - 1) particles to compute their contributions weighted by the smoothing kernel 
+  function <i>W</i>. However, because the W_spiky(r) kernel we used has finite support (W_spiky(r) = 0 for r > h), we can actually skip over iterating over all N particles and instead 
+  only iterate over nearby particles that have the potential to provide a non-zero contribution to our desired value.
+</p>
+
+<p>
+  To do this, we divide the possible space that the fluid can occupy into cubes with side length h. The particles themselves are surrounded by 6 invisible planes oriented in the shape of a 
+  cube. If a particle has a velocity that would cause it to cross over the plane from its current position when going to the next timestep, we zero the component of its velocity in the 
+  direction of the plane's surface normal. These planes constrain the possible locations of a particle in the fluid throughout the simulation. This way, we can store subdivided space into 
+  an array of lists, where the array length scales with the number of particles (we have it so the density of the fluid is the same no matter how many particles there are, so increasing the 
+  number of particles also increases the size of the space the fluid occupies. We separate the bounding planes further to account for this). Each entry in the array represents a cubic cell 
+  of side length h and stores a list of particles currently contained in that cell. Because the kernel support is equal to h and the cells are of width h, each particle only needs to search 
+  the cell it is contained in plus all surrounding cells (27 cells in total) to find the particles that have the potential to have a non-zero contribution to their sum. As such, the 
+  algorithmic work becomes O(NM), where M is the average number of particles in a cube with side-length 3h. When we compute the new positions for each particle at each time step, we move 
+  them to their corresponding cell if they exited their old cell.
+</p>
+
+<p>
+  Note: The array of cells is sparse. That is, we only allocate a list of particles corresponding to that cell if there is at least one particle occupying that cell. That is, 
+  if the particles have all fallen due to gravity and only occupy the bottom third of the space, only one third of the lists in the cells array will be allocated in memory.
+</p>
+
+<p>
+  We are unable to utilize this optimization for the magnetic force computation because a magnetic force is applied between all pairs of particles even if they are farther away 
+  from each other than the kernel support (see <b>far-force computation</b>). As a result, the magnetic force computation remains O(N^2). This makes it difficult to run our algorithm 
+  with large numbers of particles.
+</p>
+
+<br>
+
+<h3 align="left">
+  Cube Marching
+</h3>
 
 <center><img src="images/marching-cubes.png" align="middle" width="400px"/></center>
 <figcaption align="middle">
